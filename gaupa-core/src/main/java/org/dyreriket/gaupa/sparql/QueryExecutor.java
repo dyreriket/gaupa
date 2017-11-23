@@ -13,48 +13,47 @@ import org.slf4j.LoggerFactory;
 
 public abstract class QueryExecutor {
 
-	private static Logger log = LoggerFactory.getLogger(QueryExecutor.class);
-	
-	public static void printQueryModelResult (String sparql, String modelPath) throws ModelIOException {
-		log.info("Querying with SPARQL query: " + sparql + "against model.");
-		printQueryExecutionResult(QueryExecutionFactory.create(sparql, ModelIO.readModel(modelPath)));
-	}
+    private static Logger log = LoggerFactory.getLogger(QueryExecutor.class);
 
-	public static void printQueryModelResult (String sparql, Model model) throws ModelIOException {
-		log.info("Querying with SPARQL query: " + sparql + "against model.");
-		printQueryExecutionResult(QueryExecutionFactory.create(sparql, model));
-	}
+    public static void printQueryEndpointResult(String sparql, String endpoint)
+            throws ModelIOException {
+        log.info("Querying with SPARQL query: " + sparql + "against endpoint: " + endpoint);
+        try (QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, sparql)) {
+            printQueryExecutionResult(qexec);
+        }
+    }
 
-	public static void printQueryEndpointResult (String sparql, String endpoint) throws ModelIOException {
-		log.info("Querying with SPARQL query: " + sparql + "against endpoint: " + endpoint);
-		try (QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, sparql)) {
-			printQueryExecutionResult(qexec);
-		}
-	}
+    private static void printQueryExecutionResult(QueryExecution qexec) throws ModelIOException {
+        log.info("Printing SPARQL query results");
+        Query query = qexec.getQuery();
+        if (query.isSelectType()) {
+            ResultSet results = qexec.execSelect();
+            if (!results.hasNext()) {
+                System.out.println("No results.");
+            } else {
+                ResultSetFormatter.out(System.out, results);
+            }
+        } else if (query.isAskType()) {
+            boolean result = qexec.execAsk();
+            System.out.println(result);
+        } else if (query.isConstructType()) {
+            Model results = qexec.execConstruct();
+            ModelIO.printModel(results, ModelIO.Format.TURTLE);
+        } else if (query.isDescribeType()) {
+            Model results = qexec.execDescribe();
+            ModelIO.printModel(results, ModelIO.Format.TURTLE);
+        }
+    }
 
-	private static void printQueryExecutionResult (QueryExecution qexec) throws ModelIOException {
-		log.info("Printing SPARQL query results");
-		Query query = qexec.getQuery();
-		if (query.isSelectType()) {
-			ResultSet results = qexec.execSelect();
-			if (!results.hasNext()) {
-				System.out.println("No results.");
-			}
-			else {
-				ResultSetFormatter.out(System.out, results);
-			}
-		}
-		else if (query.isAskType()) {
-			boolean result = qexec.execAsk();
-			System.out.println(result);
-		}
-		else if (query.isConstructType()) {
-			Model results = qexec.execConstruct();
-			ModelIO.printModel(results, ModelIO.format.TURTLE);			
-		}
-		else if (query.isDescribeType()) {
-			Model results = qexec.execDescribe();
-			ModelIO.printModel(results, ModelIO.format.TURTLE);
-		}
-	}
+    public static void printQueryModelResult(String sparql, Model model) throws ModelIOException {
+        log.info("Querying with SPARQL query: " + sparql + "against model.");
+        printQueryExecutionResult(QueryExecutionFactory.create(sparql, model));
+    }
+
+    public static void printQueryModelResult(String sparql, String modelPath)
+            throws ModelIOException {
+        log.info("Querying with SPARQL query: " + sparql + "against model.");
+        printQueryExecutionResult(
+                QueryExecutionFactory.create(sparql, ModelIO.readModel(modelPath)));
+    }
 }

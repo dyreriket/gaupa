@@ -43,7 +43,7 @@
 
   <build>
     <plugins>
-      <plugin>
+      <!--plugin>
 	<artifactId>maven-assembly-plugin</artifactId>
 	<version>3.1.0</version>
 	<executions>
@@ -67,7 +67,7 @@
 	  </descriptorRefs>
 	  <appendAssemblyId>false</appendAssemblyId>
 	</configuration>
-      </plugin>
+      </plugin-->
     </plugins>
   </build>
 

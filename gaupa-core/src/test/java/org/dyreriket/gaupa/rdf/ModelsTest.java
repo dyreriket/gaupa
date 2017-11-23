@@ -9,59 +9,55 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
-import org.dyreriket.gaupa.rdf.ModelEditor;
-import org.dyreriket.gaupa.rdf.ModelIO;
-import org.dyreriket.gaupa.rdf.ModelIOException;
-import org.dyreriket.gaupa.rdf.ModelSelector;
 import org.junit.Test;
 
 public class ModelsTest {
-	
-	@Test
-	public void shouldCloneModel () throws ModelIOException {
 
-		// create the model:  [] a Thing .
-		Model source = ModelFactory.createDefaultModel();
-		source.add(ResourceFactory.createResource(), RDF.type, OWL.Thing);
-		ModelIO.printModel(source, ModelIO.format.NTRIPLES);
+    private String cloneQuery = "CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }";
 
-		// OK
-		assertEquals(1, source.size());
+    public Model clone1(Model source) {
+        Model copy = ModelFactory.createDefaultModel();
+        copy.add(source);
+        return copy;
+    }
 
-		// clone
-		Model copy = clone3(source);
-		ModelIO.printModel(copy, ModelIO.format.NTRIPLES);
+    public Model clone2(Model source) {
+        return QueryExecutionFactory.create(this.cloneQuery, source).execConstruct();
+    }
 
-		// OK
-		assertEquals(1, copy.size());
+    public Model clone3(Model source) {
+        Model copy = clone1(source);
+        for (RDFNode node : ModelSelector.getRDFNodes(copy)) {
+            if (node.isAnon()) {
+                ModelEditor.substituteNode(copy, node, ResourceFactory.createResource());
+            }
+        }
+        return copy;
+    }
 
+    @Test
+    public void shouldCloneModel() throws ModelIOException {
 
-		// adding cloned copy back into source
-		source.add(copy);
+        // create the model: [] a Thing .
+        Model source = ModelFactory.createDefaultModel();
+        source.add(ResourceFactory.createResource(), RDF.type, OWL.Thing);
+        ModelIO.printModel(source, ModelIO.Format.NTRIPLES);
 
-		// Fails with current implementation
-		assertEquals(2, source.size());
-	}
+        // OK
+        assertEquals(1, source.size());
 
-	public Model clone1 (Model source) {
-		Model copy = ModelFactory.createDefaultModel();
-		copy.add(source);
-		return copy;
-	}
+        // clone
+        Model copy = clone3(source);
+        ModelIO.printModel(copy, ModelIO.Format.NTRIPLES);
 
-	private String cloneQuery = "CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }";
-	public Model clone2 (Model source) {
-		return QueryExecutionFactory.create(cloneQuery, source).execConstruct();
-	}
+        // OK
+        assertEquals(1, copy.size());
 
-	public Model clone3 (Model source) {
-		Model copy = clone1(source);
-		for (RDFNode node : ModelSelector.getRDFNodes(copy)) {
-			if (node.isAnon()) {
-				ModelEditor.substituteNode(copy, node, ResourceFactory.createResource());
-			}
-		}
-		return copy;
-	}
+        // adding cloned copy back into source
+        source.add(copy);
+
+        // Fails with current implementation
+        assertEquals(2, source.size());
+    }
 
 }

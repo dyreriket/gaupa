@@ -16,75 +16,74 @@ import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
 
 public abstract class QueryBuilder {
-	
-	private static List<Triple> sortTriples (Collection<Triple> triples) {
-		List<Triple> sorted = new ArrayList<>(triples);
-		Collections.sort(sorted, (t1, t2) -> t1.toString().compareToIgnoreCase(t2.toString()));
-		return sorted;
-	}
 
-	public static Query getReformattedQuery (Query query) {
-		return QueryFactory.create(query.serialize());
-	}
-	
-	public static UpdateRequest createUpdateQuery (
-			Collection<Triple> deleteTriples, 
-			Collection<Triple> insertTriples, 
-			Collection<Triple> whereTriples) {
-		
-		UpdateDeleteInsert query = new UpdateDeleteInsert();
-		
-		sortTriples(deleteTriples).forEach(t -> query.getDeleteAcc().addTriple(t));
-		sortTriples(insertTriples).forEach(t -> query.getInsertAcc().addTriple(t));
-		query.setElement(getElementTriplesBlock(sortTriples(whereTriples)));
-		
-		return UpdateFactory.create(query.toString());
-	}
-	
-	public static Query createConstructQuery (Collection<Triple> constructTriples, Collection<Triple> whereTriples) {
-		Query query = createQuerySkeleton(whereTriples);
-		query.setQueryConstructType();
-		query.setConstructTemplate(getConstructTemplate(constructTriples));
-		return getReformattedQuery(query);
-	}
+    public static Query createAskQuery(Collection<Triple> whereTriples) {
+        Query query = createQuerySkeleton(whereTriples);
+        query.setQueryAskType();
+        return getReformattedQuery(query);
+    }
 
-	public static Query createSelectStarQuery (Collection<Triple> whereTriples) {
-		Query query = createQuerySkeleton(whereTriples);
-		query.setQuerySelectType();
-		query.setQueryResultStar(true);
-		return getReformattedQuery(query);
-	}
+    public static Query createConstructQuery(Collection<Triple> constructTriples,
+            Collection<Triple> whereTriples) {
+        Query query = createQuerySkeleton(whereTriples);
+        query.setQueryConstructType();
+        query.setConstructTemplate(getConstructTemplate(constructTriples));
+        return getReformattedQuery(query);
+    }
 
-	public static Query createSelectQuery (List<String> resultVars, Collection<Triple> whereTriples) {
-		Query query = createQuerySkeleton(whereTriples);
-		query.setQuerySelectType();
-		resultVars.forEach(var -> query.addResultVar(var));
-		return getReformattedQuery(query);
-	}
+    private static Query createQuerySkeleton(Collection<Triple> whereTriples) {
+        Query query = QueryFactory.create();
+        query.setQueryPattern(getElementTriplesBlock(whereTriples));
+        return query;
+    }
 
-	public static Query createAskQuery (Collection<Triple> whereTriples) {
-		Query query = createQuerySkeleton(whereTriples);
-		query.setQueryAskType();
-		return getReformattedQuery(query);
-	}
+    public static Query createSelectQuery(List<String> resultVars,
+            Collection<Triple> whereTriples) {
+        Query query = createQuerySkeleton(whereTriples);
+        query.setQuerySelectType();
+        resultVars.forEach(var -> query.addResultVar(var));
+        return getReformattedQuery(query);
+    }
 
-	private static Query createQuerySkeleton (Collection<Triple> whereTriples) {
-		Query query = QueryFactory.create();
-		query.setQueryPattern(getElementTriplesBlock(whereTriples));
-		return query;
-	}
+    public static Query createSelectStarQuery(Collection<Triple> whereTriples) {
+        Query query = createQuerySkeleton(whereTriples);
+        query.setQuerySelectType();
+        query.setQueryResultStar(true);
+        return getReformattedQuery(query);
+    }
 
-	private static Template getConstructTemplate (Collection<Triple> constructTriples) {
-		BasicPattern bgp = new BasicPattern();
-		sortTriples(constructTriples).forEach(t -> bgp.add(t));
-		return new Template(bgp);
-	}
+    public static UpdateRequest createUpdateQuery(Collection<Triple> deleteTriples,
+            Collection<Triple> insertTriples, Collection<Triple> whereTriples) {
 
-	private static ElementTriplesBlock getElementTriplesBlock (Collection<Triple> whereTriples) {
-		ElementTriplesBlock etp = new ElementTriplesBlock();
-		sortTriples(whereTriples).forEach(t -> etp.addTriple(t));
-		return etp;
-	}
+        UpdateDeleteInsert query = new UpdateDeleteInsert();
 
-	
+        sortTriples(deleteTriples).forEach(t -> query.getDeleteAcc().addTriple(t));
+        sortTriples(insertTriples).forEach(t -> query.getInsertAcc().addTriple(t));
+        query.setElement(getElementTriplesBlock(sortTriples(whereTriples)));
+
+        return UpdateFactory.create(query.toString());
+    }
+
+    private static Template getConstructTemplate(Collection<Triple> constructTriples) {
+        BasicPattern bgp = new BasicPattern();
+        sortTriples(constructTriples).forEach(t -> bgp.add(t));
+        return new Template(bgp);
+    }
+
+    private static ElementTriplesBlock getElementTriplesBlock(Collection<Triple> whereTriples) {
+        ElementTriplesBlock etp = new ElementTriplesBlock();
+        sortTriples(whereTriples).forEach(t -> etp.addTriple(t));
+        return etp;
+    }
+
+    public static Query getReformattedQuery(Query query) {
+        return QueryFactory.create(query.serialize());
+    }
+
+    private static List<Triple> sortTriples(Collection<Triple> triples) {
+        List<Triple> sorted = new ArrayList<>(triples);
+        Collections.sort(sorted, (t1, t2) -> t1.toString().compareToIgnoreCase(t2.toString()));
+        return sorted;
+    }
+
 }
