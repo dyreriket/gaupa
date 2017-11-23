@@ -1,0 +1,9 @@
+engines:
+  checkstyle:
+    enabled: true
+    config:
+      file: "gaupa-root/.checkstyle.xml"
+
+ratings:
+  paths:
+  - "**.java"
