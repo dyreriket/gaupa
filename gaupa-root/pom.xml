@@ -193,12 +193,14 @@
           <effort>Max</effort>
           <threshold>Low</threshold>
           <xmlOutput>true</xmlOutput>
+          <includeTests>true</includeTests>
         </configuration>
         <executions>
           <execution>
             <phase>verify</phase>
             <goals>
               <goal>check</goal>
+              <goal>findbugs</goal>
             </goals>
           </execution>
         </executions>
