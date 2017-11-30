@@ -6,6 +6,8 @@ import java.io.IOException;
 import org.apache.jena.rdf.model.Model;
 import org.dyreriket.gaupa.rdf.ModelIO;
 import org.dyreriket.gaupa.rdf.ModelIOException;
+import org.semanticweb.HermiT.Configuration;
+import org.semanticweb.HermiT.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.TurtleDocumentFormat;
 import org.semanticweb.owlapi.io.StringDocumentSource;
@@ -14,6 +16,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 public class Ontologies {
 
@@ -60,19 +63,22 @@ public class Ontologies {
         return output;
     }
 
-    /*
-     * public static OWLReasoner getReasoner (OWLOntology ontology) { // OWL API
-     * //OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
-     * //OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
-     *
-     * // Hermit ReasonerFactory factory = new ReasonerFactory(); Configuration
-     * config = new Configuration(); config.throwInconsistentOntologyException =
-     * false; OWLReasoner reasoner = factory.createReasoner(ontology, config);
-     *
-     * reasoner.precomputeInferences();
-     *
-     * return reasoner; }
-     */
+    
+    public static OWLReasoner getReasoner (OWLOntology ontology) {
+		// OWL API
+		//OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
+		//OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
+
+		// Hermit
+		ReasonerFactory factory = new ReasonerFactory();
+		Configuration config = new Configuration();
+		config.throwInconsistentOntologyException = false;
+		OWLReasoner reasoner = factory.createReasoner(ontology, config);
+
+		reasoner.precomputeInferences();
+
+		return reasoner;
+	}
 
     /*
      * public static void addTriplesToOntology (final OWLOntology ontology, final

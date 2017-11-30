@@ -13,6 +13,12 @@
   <packaging>jar</packaging>
 
   <dependencies>
+  
+	<dependency>
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-lang3</artifactId>
+    </dependency>
+	  
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-core</artifactId>
@@ -39,7 +45,15 @@
       <groupId>net.sourceforge.owlapi</groupId>
       <artifactId>owlapi-parsers</artifactId>
     </dependency>
+  
+    <dependency>
+       <groupId>net.sourceforge.owlapi</groupId>
+	   <artifactId>org.semanticweb.hermit</artifactId>
+    </dependency>
+  
   </dependencies>
+  
+  
 
   <build>
     <plugins>
