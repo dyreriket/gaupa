@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -13,7 +14,6 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
-import org.dyreriket.gaupa.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -168,7 +168,11 @@ public abstract class ModelSelector {
                     "Error getting exactly one required value for properties: '",
                     qname(model, properties), "' and subject '", qname(model, subject),
                     "'. Expected resource, but found ",
-                    Strings.toString(statements, s -> qname(model, s.getObject()), ", "));
+                    //Strings.toString(statements, s -> qname(model, s.getObject()), ", "));
+                    statements.stream()
+                    	.map(s -> qname(model, s.getObject()))
+                    	.collect(Collectors.joining(", ")));
+            
         }
         return statements.iterator().next();
     }
@@ -223,7 +227,7 @@ public abstract class ModelSelector {
     // privates
 
     private static String qname(Model model, Collection<? extends RDFNode> nodes) {
-        String list = Strings.toString(nodes, node -> ModelIO.shortForm(model, node), ", ");
+    	String list = nodes.stream().map(n -> ModelIO.shortForm(model, n)).collect(Collectors.joining(", "));
         return "[" + list + "]";
     }
 

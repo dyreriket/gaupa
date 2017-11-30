@@ -47,7 +47,6 @@
     
     <jena.version>3.1.0</jena.version>
     <owlapi.version>5.1.0</owlapi.version>
-    
   </properties>
 
   <build>
@@ -277,18 +276,26 @@
   <dependencyManagement>
     <dependencies>
     
+      <!-- Apache commons -->
+      <dependency>
+      <groupId>org.apache.commons</groupId>
+       <artifactId>commons-lang3</artifactId>
+       <version>3.7</version>
+      </dependency>
+    
+      <!-- JENA -->
       <dependency>
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-core</artifactId>
         <version>${jena.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-arq</artifactId>
         <version>${jena.version}</version>
       </dependency>
 
+      <!-- OWL API -->
       <dependency>
         <groupId>net.sourceforge.owlapi</groupId>
         <artifactId>owlapi-api</artifactId>
@@ -310,6 +317,7 @@
         <version>${owlapi.version}</version>
       </dependency>
 
+      <!-- Hermit -->
       <dependency>
         <groupId>net.sourceforge.owlapi</groupId>
         <artifactId>org.semanticweb.hermit</artifactId>
