@@ -12,7 +12,7 @@
 
   <packaging>pom</packaging>
   <modules>
-    <module>../gaupa-core</module>
+    <module>gaupa-core</module>
   </modules>  
 
   <issueManagement>
