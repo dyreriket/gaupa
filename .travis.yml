@@ -3,5 +3,4 @@ sudo: false
 
 language: java
 
-before_install: cd gaupa-root
 
