@@ -23,8 +23,7 @@ public abstract class QueryBuilder {
         return getReformattedQuery(query);
     }
 
-    public static Query createConstructQuery(Collection<Triple> constructTriples,
-            Collection<Triple> whereTriples) {
+    public static Query createConstructQuery(Collection<Triple> constructTriples, Collection<Triple> whereTriples) {
         Query query = createQuerySkeleton(whereTriples);
         query.setQueryConstructType();
         query.setConstructTemplate(getConstructTemplate(constructTriples));
@@ -37,8 +36,7 @@ public abstract class QueryBuilder {
         return query;
     }
 
-    public static Query createSelectQuery(List<String> resultVars,
-            Collection<Triple> whereTriples) {
+    public static Query createSelectQuery(List<String> resultVars, Collection<Triple> whereTriples) {
         Query query = createQuerySkeleton(whereTriples);
         query.setQuerySelectType();
         resultVars.forEach(var -> query.addResultVar(var));
@@ -52,8 +50,8 @@ public abstract class QueryBuilder {
         return getReformattedQuery(query);
     }
 
-    public static UpdateRequest createUpdateQuery(Collection<Triple> deleteTriples,
-            Collection<Triple> insertTriples, Collection<Triple> whereTriples) {
+    public static UpdateRequest createUpdateQuery(Collection<Triple> deleteTriples, Collection<Triple> insertTriples,
+                    Collection<Triple> whereTriples) {
 
         UpdateDeleteInsert query = new UpdateDeleteInsert();
 

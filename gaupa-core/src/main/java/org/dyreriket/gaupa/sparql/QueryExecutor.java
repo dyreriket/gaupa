@@ -15,8 +15,7 @@ public abstract class QueryExecutor {
 
     private static Logger log = LoggerFactory.getLogger(QueryExecutor.class);
 
-    public static void printQueryEndpointResult(String sparql, String endpoint)
-            throws ModelIOException {
+    public static void printQueryEndpointResult(String sparql, String endpoint) throws ModelIOException {
         log.info("Querying with SPARQL query: " + sparql + "against endpoint: " + endpoint);
         try (QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, sparql)) {
             printQueryExecutionResult(qexec);
@@ -50,10 +49,8 @@ public abstract class QueryExecutor {
         printQueryExecutionResult(QueryExecutionFactory.create(sparql, model));
     }
 
-    public static void printQueryModelResult(String sparql, String modelPath)
-            throws ModelIOException {
+    public static void printQueryModelResult(String sparql, String modelPath) throws ModelIOException {
         log.info("Querying with SPARQL query: " + sparql + "against model.");
-        printQueryExecutionResult(
-                QueryExecutionFactory.create(sparql, ModelIO.readModel(modelPath)));
+        printQueryExecutionResult(QueryExecutionFactory.create(sparql, ModelIO.readModel(modelPath)));
     }
 }

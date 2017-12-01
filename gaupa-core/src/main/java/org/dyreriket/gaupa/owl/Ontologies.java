@@ -29,56 +29,52 @@ public class Ontologies {
      */
 
     public static OWLOntology readOntology(String owlfile) throws OWLOntologyCreationException {
-        return OWLManager.createOWLOntologyManager()
-                .loadOntologyFromOntologyDocument(IRI.create(owlfile));
+        return OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument(IRI.create(owlfile));
     }
 
-    public static OWLOntology toOntology(Model model)
-            throws OWLOntologyCreationException, ModelIOException {
+    public static OWLOntology toOntology(Model model) throws OWLOntologyCreationException, ModelIOException {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         return manager.loadOntologyFromOntologyDocument(
-                new StringDocumentSource(ModelIO.writeModel(model, ModelIO.Format.RDFXML)));
+                        new StringDocumentSource(ModelIO.writeModel(model, ModelIO.Format.RDFXML)));
     }
 
-    public static String writeAsOntology(Model model) throws OWLOntologyStorageException,
-            IOException, OWLOntologyCreationException, ModelIOException {
+    public static String writeAsOntology(Model model)
+                    throws OWLOntologyStorageException, IOException, OWLOntologyCreationException, ModelIOException {
         TurtleDocumentFormat format = new TurtleDocumentFormat();
         format.copyPrefixesFrom(model.getNsPrefixMap());
         return writeOntology(toOntology(model), format);
     }
 
-    public static String writeOntology(OWLOntology ontology)
-            throws OWLOntologyStorageException, IOException {
+    public static String writeOntology(OWLOntology ontology) throws OWLOntologyStorageException, IOException {
         return writeOntology(ontology, new TurtleDocumentFormat());
     }
 
     private static String writeOntology(OWLOntology ontology, TurtleDocumentFormat format)
-            throws OWLOntologyStorageException, IOException {
+                    throws OWLOntologyStorageException, IOException {
         OWLOntologyManager manager = ontology.getOWLOntologyManager();
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         manager.saveOntology(ontology, format, buffer);
-        String output = buffer.toString();
+        String output = buffer.toString("UTF-8");
         buffer.flush();
         buffer.close();
         return output;
     }
 
-    
-    public static OWLReasoner getReasoner (OWLOntology ontology) {
-		// OWL API
-		//OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
-		//OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
+    public static OWLReasoner getReasoner(OWLOntology ontology) {
+        // OWL API
+        // OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
+        // OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
 
-		// Hermit
-		ReasonerFactory factory = new ReasonerFactory();
-		Configuration config = new Configuration();
-		config.throwInconsistentOntologyException = false;
-		OWLReasoner reasoner = factory.createReasoner(ontology, config);
+        // Hermit
+        ReasonerFactory factory = new ReasonerFactory();
+        Configuration config = new Configuration();
+        config.throwInconsistentOntologyException = false;
+        OWLReasoner reasoner = factory.createReasoner(ontology, config);
 
-		reasoner.precomputeInferences();
+        reasoner.precomputeInferences();
 
-		return reasoner;
-	}
+        return reasoner;
+    }
 
     /*
      * public static void addTriplesToOntology (final OWLOntology ontology, final

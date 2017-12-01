@@ -20,8 +20,7 @@ import org.apache.jena.sparql.util.graph.GraphUtils;
 
 public class Graphs {
 
-    private static BiFunction<Map<Node, Node>, Node, Node> partialMap = (map, t) -> map
-            .getOrDefault(t, t);
+    private static BiFunction<Map<Node, Node>, Node, Node> partialMap = (map, t) -> map.getOrDefault(t, t);
 
     public static Graph empty() {
         return Models.empty().getGraph();
@@ -64,9 +63,8 @@ public class Graphs {
     }
 
     public static Triple replaceNodes(Triple triple, Map<Node, Node> map) {
-        return new Triple(partialMap.apply(map, triple.getSubject()),
-                partialMap.apply(map, triple.getPredicate()),
-                partialMap.apply(map, triple.getObject()));
+        return new Triple(partialMap.apply(map, triple.getSubject()), partialMap.apply(map, triple.getPredicate()),
+                        partialMap.apply(map, triple.getObject()));
     }
 
     public static Graph toGraph(Collection<Triple> triples) {

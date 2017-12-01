@@ -146,7 +146,7 @@ public class RDFLists {
         for (ResIterator itList = model.listSubjectsWithProperty(RDF.first); itList.hasNext();) {
             Resource head = itList.next();
             if (!model.listResourcesWithProperty(RDF.rest, head).hasNext() && // make sure that we are at the first element
-                    head.canAs(RDFList.class)) {
+                            head.canAs(RDFList.class)) {
                 lists.add(head.as(RDFList.class));
             }
         }

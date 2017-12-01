@@ -21,13 +21,11 @@ public abstract class ModelEditor {
         }
     }
 
-    public static void substituteNode(Graph graph, Node old, Node fresh)
-            throws ModelEditorException {
+    public static void substituteNode(Graph graph, Node old, Node fresh) throws ModelEditorException {
         // subjects
         Set<Triple> subjects = graph.find(old, Node.ANY, Node.ANY).toSet();
         if (!subjects.isEmpty() && fresh.isLiteral()) {
-            throw new ModelEditorException(
-                    "Cannot put literal + '" + fresh + "' + in subject position.");
+            throw new ModelEditorException("Cannot put literal + '" + fresh + "' + in subject position.");
         }
         for (Triple t : subjects) {
             graph.delete(t);
@@ -37,8 +35,7 @@ public abstract class ModelEditor {
         // predicate
         Set<Triple> predicates = graph.find(Node.ANY, old, Node.ANY).toSet();
         if (!predicates.isEmpty() && (fresh.isBlank() || fresh.isLiteral())) {
-            throw new ModelEditorException(
-                    "Cannot put literal or blank node '" + fresh + "' in predicate position.");
+            throw new ModelEditorException("Cannot put literal or blank node '" + fresh + "' in predicate position.");
         }
         for (Triple t : predicates) {
             graph.delete(t);
@@ -51,18 +48,16 @@ public abstract class ModelEditor {
         }
     }
 
-    public static void substituteNode(Model model, Node old, Node fresh)
-            throws ModelEditorException {
+    public static void substituteNode(Model model, Node old, Node fresh) throws ModelEditorException {
         try {
             substituteNode(model.getGraph(), old, fresh);
         } catch (ModelEditorException e) {
-            throw new ModelEditorException("Error replacing " + old.toString() + " with "
-                    + fresh.toString() + ": " + e.getMessage());
+            throw new ModelEditorException(
+                            "Error replacing " + old.toString() + " with " + fresh.toString() + ": " + e.getMessage());
         }
     }
 
-    public static void substituteNode(Model model, RDFNode old, RDFNode fresh)
-            throws ModelEditorException {
+    public static void substituteNode(Model model, RDFNode old, RDFNode fresh) throws ModelEditorException {
         substituteNode(model, old.asNode(), fresh.asNode());
     }
 
