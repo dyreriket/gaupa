@@ -35,11 +35,11 @@ public class Ontologies {
     public static OWLOntology toOntology(Model model) throws OWLOntologyCreationException, ModelIOException {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         return manager.loadOntologyFromOntologyDocument(
-                        new StringDocumentSource(ModelIO.writeModel(model, ModelIO.Format.RDFXML)));
+                new StringDocumentSource(ModelIO.writeModel(model, ModelIO.Format.RDFXML)));
     }
 
     public static String writeAsOntology(Model model)
-                    throws OWLOntologyStorageException, IOException, OWLOntologyCreationException, ModelIOException {
+            throws OWLOntologyStorageException, IOException, OWLOntologyCreationException, ModelIOException {
         TurtleDocumentFormat format = new TurtleDocumentFormat();
         format.copyPrefixesFrom(model.getNsPrefixMap());
         return writeOntology(toOntology(model), format);
@@ -50,7 +50,7 @@ public class Ontologies {
     }
 
     private static String writeOntology(OWLOntology ontology, TurtleDocumentFormat format)
-                    throws OWLOntologyStorageException, IOException {
+            throws OWLOntologyStorageException, IOException {
         OWLOntologyManager manager = ontology.getOWLOntologyManager();
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         manager.saveOntology(ontology, format, buffer);

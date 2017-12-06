@@ -51,7 +51,7 @@ public abstract class QueryBuilder {
     }
 
     public static UpdateRequest createUpdateQuery(Collection<Triple> deleteTriples, Collection<Triple> insertTriples,
-                    Collection<Triple> whereTriples) {
+            Collection<Triple> whereTriples) {
 
         UpdateDeleteInsert query = new UpdateDeleteInsert();
 

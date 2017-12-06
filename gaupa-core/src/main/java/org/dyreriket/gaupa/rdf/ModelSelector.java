@@ -30,49 +30,50 @@ public abstract class ModelSelector {
     }
 
     public static Literal getOptionalLiteralOfProperty(Model model, Resource subject, Property property)
-                    throws ModelSelectorException {
+            throws ModelSelectorException {
         RDFNode object = getOptionalObjectOfProperty(model, subject, property);
         if (object != null && !object.isLiteral()) {
-            throw new ModelSelectorException("Error getting optional property literal value '" + qname(model, property)
-                            + "' for subject '" + qname(model, subject) + "'. Expected literal, but found " + object.toString());
+            throw new ModelSelectorException(
+                    "Error getting optional property literal value '" + qname(model, property) + "' for subject '"
+                            + qname(model, subject) + "'. Expected literal, but found " + object.toString());
         }
         log.trace("Found " + (object == null ? "0" : "1") + " property literal value(s) '" + qname(model, property)
-                        + "' for subject '" + qname(model, subject) + "'");
+                + "' for subject '" + qname(model, subject) + "'");
         return object == null ? null : object.asLiteral();
     }
 
     public static RDFNode getOptionalObjectOfProperty(Model model, Resource subject, Property property)
-                    throws ModelSelectorException {
+            throws ModelSelectorException {
         List<RDFNode> objects = listObjectsOfProperty(model, subject, property);
         int size = objects.size();
         if (size > 1) {
             throw new ModelSelectorException("Error getting optional property value '" + qname(model, property)
-                            + "' for subject '" + qname(model, subject) + "'. Expected optionally 1 instance, but found "
-                            + objects.size() + ": " + qname(model, objects));
+                    + "' for subject '" + qname(model, subject) + "'. Expected optionally 1 instance, but found "
+                    + objects.size() + ": " + qname(model, objects));
         }
         log.trace("Found " + objects.size() + " property value(s) '" + qname(model, property) + "' for subject '"
-                        + qname(model, subject) + "'");
+                + qname(model, subject) + "'");
         return objects.isEmpty() ? null : objects.get(0);
     }
 
     public static Resource getOptionalResourceOfProperty(Model model, Resource subject, Property property)
-                    throws ModelSelectorException {
+            throws ModelSelectorException {
         RDFNode object = getOptionalObjectOfProperty(model, subject, property);
         if (object != null && !object.isResource()) {
             throw new ModelSelectorException(
-                            "Error getting optional property resource value '" + qname(model, property) + "' for subject '"
-                                            + qname(model, subject) + "'. Expected resource, but found " + qname(model, object));
+                    "Error getting optional property resource value '" + qname(model, property) + "' for subject '"
+                            + qname(model, subject) + "'. Expected resource, but found " + qname(model, object));
         }
         log.trace("Found " + (object == null ? "0" : "1") + " property resource value(s) '" + qname(model, property)
-                        + "' for subject '" + qname(model, subject) + "'");
+                + "' for subject '" + qname(model, subject) + "'");
         return object == null ? null : object.asResource();
     }
 
     /////////////////////////////////////
     // wrapper methods
 
-    public static Statement getOptionalStatementWithProperties(Model model, Resource subject, Collection<Property> properties)
-                    throws ModelSelectorException {
+    public static Statement getOptionalStatementWithProperties(Model model, Resource subject,
+            Collection<Property> properties) throws ModelSelectorException {
         Set<Statement> statements = new HashSet<>();
         for (Property p : properties) {
             statements.addAll(model.listStatements(subject, p, (RDFNode) null).toSet());
@@ -106,19 +107,19 @@ public abstract class ModelSelector {
         int size = individuals.size();
         if (size != 1) {
             throw new ModelSelectorException(
-                            "Error getting instance of class " + qname(model, cls) + ". Expected exactly 1 instance, but found "
-                                            + individuals.size() + ": " + qname(model, individuals));
+                    "Error getting instance of class " + qname(model, cls) + ". Expected exactly 1 instance, but found "
+                            + individuals.size() + ": " + qname(model, individuals));
         }
         return individuals.get(0);
     }
 
     public static Literal getRequiredLiteralOfProperty(Model model, Resource subject, Property property)
-                    throws ModelSelectorException {
+            throws ModelSelectorException {
         RDFNode object = getRequiredObjectOfProperty(model, subject, property);
         if (!object.isLiteral()) {
             throw new ModelSelectorException(
-                            "Error getting required property literal value '" + qname(model, property) + "' for subject '"
-                                            + qname(model, subject) + "'. Expected literal, but found " + qname(model, object));
+                    "Error getting required property literal value '" + qname(model, property) + "' for subject '"
+                            + qname(model, subject) + "'. Expected literal, but found " + qname(model, object));
         }
         return object.asLiteral();
     }
@@ -129,40 +130,40 @@ public abstract class ModelSelector {
     // required-s
 
     public static RDFNode getRequiredObjectOfProperty(Model model, Resource subject, Property property)
-                    throws ModelSelectorException {
+            throws ModelSelectorException {
         List<RDFNode> objects = listObjectsOfProperty(model, subject, property);
         int size = objects.size();
         if (size != 1) {
             throw new ModelSelectorException("Error getting required property value '" + qname(model, property)
-                            + "' for subject '" + qname(model, subject) + "'. Expected exactly 1 instance, but found "
-                            + objects.size() + ": " + qname(model, objects));
+                    + "' for subject '" + qname(model, subject) + "'. Expected exactly 1 instance, but found "
+                    + objects.size() + ": " + qname(model, objects));
         }
         return objects.get(0);
     }
 
     public static Resource getRequiredResourceOfProperty(Model model, Resource subject, Property property)
-                    throws ModelSelectorException {
+            throws ModelSelectorException {
         RDFNode object = getRequiredObjectOfProperty(model, subject, property);
         if (!object.isResource()) {
             throw new ModelSelectorException(
-                            "Error getting required property literal value '" + qname(model, property) + "' for subject '"
-                                            + qname(model, subject) + "'. Expected resource, but found " + qname(model, object));
+                    "Error getting required property literal value '" + qname(model, property) + "' for subject '"
+                            + qname(model, subject) + "'. Expected resource, but found " + qname(model, object));
         }
         return object.asResource();
     }
 
-    public static Statement getRequiredStatementWithProperties(Model model, Resource subject, Collection<Property> properties)
-                    throws ModelSelectorException {
+    public static Statement getRequiredStatementWithProperties(Model model, Resource subject,
+            Collection<Property> properties) throws ModelSelectorException {
         Set<Statement> statements = new HashSet<>();
         for (Property p : properties) {
             statements.addAll(model.listStatements(subject, p, (RDFNode) null).toSet());
         }
         if (statements.size() != 1) {
             throw new ModelSelectorException("Error getting exactly one required value for properties: '",
-                            qname(model, properties), "' and subject '", qname(model, subject),
-                            "'. Expected resource, but found ",
-                            // Strings.toString(statements, s -> qname(model, s.getObject()), ", "));
-                            statements.stream().map(s -> qname(model, s.getObject())).collect(Collectors.joining(", ")));
+                    qname(model, properties), "' and subject '", qname(model, subject),
+                    "'. Expected resource, but found ",
+                    // Strings.toString(statements, s -> qname(model, s.getObject()), ", "));
+                    statements.stream().map(s -> qname(model, s.getObject())).collect(Collectors.joining(", ")));
 
         }
         return statements.iterator().next();
@@ -181,25 +182,26 @@ public abstract class ModelSelector {
 
     public static List<Resource> listInstancesOfClass(Model model, Resource cls) {
         List<Resource> instances = model.listResourcesWithProperty(RDF.type, cls).toList();
-        log.trace("Found " + instances.size() + " instance(s) of class " + qname(model, cls) + ": " + instances.toString());
+        log.trace("Found " + instances.size() + " instance(s) of class " + qname(model, cls) + ": "
+                + instances.toString());
         return instances;
     }
 
     public static List<RDFNode> listObjectsOfProperty(Model model, Resource subject, Property property) {
         List<RDFNode> objects = subject.getModel().listObjectsOfProperty(subject, property).toList();
-        log.trace("Found " + objects.size() + " resource object(s) of subject " + qname(model, subject) + " and property "
-                        + qname(model, property) + ": " + qname(model, objects));
+        log.trace("Found " + objects.size() + " resource object(s) of subject " + qname(model, subject)
+                + " and property " + qname(model, property) + ": " + qname(model, objects));
         return objects;
     }
 
     public static List<Resource> listResourcesOfProperty(Model model, Resource subject, Property property)
-                    throws ModelSelectorException {
+            throws ModelSelectorException {
         List<Resource> resources = new ArrayList<>();
         for (RDFNode object : listObjectsOfProperty(model, subject, property)) {
             if (!object.isResource()) {
                 throw new ModelSelectorException("Error getting resource objects of subject " + qname(model, subject)
-                                + " and property " + qname(model, property) + ". Excepted resource node, but found: "
-                                + qname(model, object));
+                        + " and property " + qname(model, property) + ". Excepted resource node, but found: "
+                        + qname(model, object));
             }
             resources.add(object.asResource());
         }

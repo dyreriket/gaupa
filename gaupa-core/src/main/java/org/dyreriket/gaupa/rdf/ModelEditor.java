@@ -53,7 +53,7 @@ public abstract class ModelEditor {
             substituteNode(model.getGraph(), old, fresh);
         } catch (ModelEditorException e) {
             throw new ModelEditorException(
-                            "Error replacing " + old.toString() + " with " + fresh.toString() + ": " + e.getMessage());
+                    "Error replacing " + old.toString() + " with " + fresh.toString() + ": " + e.getMessage());
         }
     }
 

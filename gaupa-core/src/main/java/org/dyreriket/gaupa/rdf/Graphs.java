@@ -64,7 +64,7 @@ public class Graphs {
 
     public static Triple replaceNodes(Triple triple, Map<Node, Node> map) {
         return new Triple(partialMap.apply(map, triple.getSubject()), partialMap.apply(map, triple.getPredicate()),
-                        partialMap.apply(map, triple.getObject()));
+                partialMap.apply(map, triple.getObject()));
     }
 
     public static Graph toGraph(Collection<Triple> triples) {
