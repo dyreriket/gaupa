@@ -1,16 +1,16 @@
-package org.dyreriket.gaupa.rdf.vocab;
+package org.dyreriket.gaupa.rdf;
 
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 
-public abstract class Vocabulary {
-
-    protected static Property getProperty(String url) {
+public interface Vocabulary {
+	
+	static Property getProperty(String url) {
         return ResourceFactory.createProperty(url);
     }
 
-    protected static Resource getResource(String url) {
+    static Resource getResource(String url) {
         return ResourceFactory.createResource(url);
     }
 
