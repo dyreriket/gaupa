@@ -2,6 +2,7 @@ package org.dyreriket.gaupa.rdf;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.shared.PrefixMapping;
@@ -103,6 +104,13 @@ public class PrefixMappings {
                 model.removeNsPrefix(model.getNsURIPrefix(prefixNamespace));
             }
         }
+    }
+    
+    public static String toStringTurtleFormat(PrefixMapping mapping) {
+        return mapping.getNsPrefixMap()
+                .entrySet().stream()
+                .map(p -> "@prefix " + p.getKey() + ": <" + p.getValue() + "> . \n")
+                .collect(Collectors.joining());
     }
 
 }
