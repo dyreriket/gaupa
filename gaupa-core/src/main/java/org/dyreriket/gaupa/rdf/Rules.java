@@ -38,18 +38,18 @@ public class Rules {
                 .collect(Collectors.toList());
     }
 
-    public static class EngineBob {
+    public static class EngineJane {
 
         /**
-         * Bob is your little helpful rule engine.
+         * Jane is your little helpful jena rule engine.
          */
 
-        public static final String namespace = "http://gaupa.dyreriket.xyz/bob#";
+        public static final String namespace = "http://gaupa.dyreriket.xyz/jane#";
         public static final Property rule = Vocabulary.getProperty(namespace + "rule");
 
         /**
-         * Get all bob:rule-s in Model, i.e, all literal values of the property
-         * http://gaupa.dyreriket.xyz/bob#rule
+         * Get all jane:rule-s in Model, i.e, all literal values of the property
+         * http://gaupa.dyreriket.xyz/jane#rule
          *
          * @param model
          * @return
