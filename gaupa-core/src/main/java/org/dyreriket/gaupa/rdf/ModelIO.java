@@ -18,7 +18,12 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 public abstract class ModelIO {
 
     public enum Format {
-        RDFXML("RDF/XML"), TURTLE("TTL"), N3("N3"), NTRIPLES("N-TRIPLES"), OWL("OWL");
+        RDFXML(FileUtils.langXMLAbbrev), 
+        TURTLE(FileUtils.langTurtle), 
+        N3(FileUtils.langN3), 
+        NTRIPLES(FileUtils.langNTriple), 
+        OWL("OWL");
+        
         private final String lang;
 
         private Format(final String lang) {
