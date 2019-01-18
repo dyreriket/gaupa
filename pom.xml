@@ -3,12 +3,12 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.dyreriket</groupId>
+  <groupId>xyz.dyreriket.gaupa</groupId>
   <artifactId>gaupa</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>gaupa</name>
   <description></description>
-  <url>https://dyreriket.github.io/gaupa</url>
+  <url>https://github.com/dyreriket/gaupa</url>
 
   <packaging>pom</packaging>
   <modules>
