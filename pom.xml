@@ -1,13 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>xyz.dyreriket.gaupa</groupId>
 	<artifactId>gaupa</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>gaupa</name>
-	<description></description>
+	<description />
 	<url>https://github.com/dyreriket/gaupa</url>
 
 	<packaging>pom</packaging>
@@ -32,7 +31,8 @@
 		<url>https://github.com/dyreriket/gaupa</url>
 		<connection>scm:git:git://github.com/dyreriket/gaupa.git</connection>
 		<developerConnection>scm:git:git@github.com:dyreriket/gaupa.git</developerConnection>
-	</scm>
+	  <tag>v0.0.1</tag>
+  </scm>
 
 	<developers>
 		<developer>
