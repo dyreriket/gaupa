@@ -3,16 +3,16 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.github.dyreriket</groupId>
-  <artifactId>gaupa-root</artifactId>
+  <groupId>xyz.dyreriket.gaupa</groupId>
+  <artifactId>gaupa</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>parent name</name>
+  <name>gaupa</name>
   <description></description>
-  <url>https://dyreriket.github.io/gaupa</url>
+  <url>https://github.com/dyreriket/gaupa</url>
 
   <packaging>pom</packaging>
   <modules>
-    <module>../gaupa-core</module>
+    <module>gaupa-core</module>
   </modules>  
 
   <issueManagement>
@@ -29,7 +29,7 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/dyreriket/gaupa/url>
+    <url>https://github.com/dyreriket/gaupa</url>
     <connection>scm:git:git://github.com/dyreriket/gaupa.git</connection>
     <developerConnection>scm:git:git@github.com:dyreriket/gaupa.git</developerConnection>
   </scm>
@@ -44,6 +44,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <jena.version>3.1.0</jena.version>
+    <owlapi.version>5.1.0</owlapi.version>
   </properties>
 
   <build>
@@ -73,7 +76,7 @@
         </configuration>
       </plugin>
       
-      <plugin>
+      <!--plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
 	<version>3.0.0-M1</version>
@@ -84,7 +87,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin-->
       
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -189,12 +192,14 @@
           <effort>Max</effort>
           <threshold>Low</threshold>
           <xmlOutput>true</xmlOutput>
+          <includeTests>true</includeTests>
         </configuration>
         <executions>
           <execution>
             <phase>verify</phase>
             <goals>
               <goal>check</goal>
+              <goal>findbugs</goal>
             </goals>
           </execution>
         </executions>
@@ -209,7 +214,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.9</version>
-	<configuration>
+	     <configuration>
           <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
           <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
         </configuration>
@@ -221,11 +226,11 @@
         <version>2.5</version>
       </plugin>
 
-      <plugin>
+      <!--plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.7</version>
-      </plugin>
+      </plugin-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -263,13 +268,62 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <dependencyManagement>
     <dependencies>
+    
+      <!-- Apache commons -->
+      <dependency>
+      <groupId>org.apache.commons</groupId>
+       <artifactId>commons-lang3</artifactId>
+       <version>3.7</version>
+      </dependency>
+    
+      <!-- JENA -->
+      <dependency>
+        <groupId>org.apache.jena</groupId>
+        <artifactId>jena-core</artifactId>
+        <version>${jena.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jena</groupId>
+        <artifactId>jena-arq</artifactId>
+        <version>${jena.version}</version>
+      </dependency>
+
+      <!-- OWL API -->
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-api</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-apibinding</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-impl</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-parsers</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+
+      <!-- Hermit -->
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>org.semanticweb.hermit</artifactId>
+        <version>1.3.8.510</version>
+      </dependency>
+      
     </dependencies>
   </dependencyManagement>
   
